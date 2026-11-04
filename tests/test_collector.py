@@ -77,6 +77,46 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(report["search_pages_cached"], 2)
         self.assertNotEqual(report["stop_reason"], "target_reached")
 
+    def test_seed_reuses_pilot_and_excludes_same_content_under_new_id(self):
+        initial = FakeClient({("q", 1): (["A", "B", "C"], True)}, {i: pdf(i) for i in "ABC"})
+        c.collect(self.db, initial, self.plan, self.output, 3)
+        expanded = {"queries": [dict(self.plan["queries"][0], quota=5)]}
+        target = self.output / "expanded"
+        (target / "pdfs").mkdir(parents=True)
+        db = c.open_database(target / "collection.sqlite3", expanded)
+        try:
+            c.seed_collection(db, target, self.output, expanded)
+            c.seed_collection(db, target, self.output, expanded)
+            client = FakeClient({("q", 2): (["D", "E", "F"], False)},
+                                {"D": pdf("A"), "E": pdf("E"), "F": pdf("F")})
+            report = c.collect(db, client, expanded, target, 5, workers=3)
+            self.assertEqual(report["downloaded_unique"], 5)
+            self.assertEqual(report["new_unique_documents"], 2)
+            self.assertEqual(report["candidate_statuses"]["duplicate"], 1)
+            self.assertEqual(report["seed"]["document_count"], 3)
+            self.assertNotIn(("search", "q", 1), client.calls)
+            self.assertEqual({x[1] for x in client.calls if x[0] == "download"}, {"D", "E", "F"})
+            self.assertEqual((target / "pdfs/A.pdf").read_bytes(), (self.output / "pdfs/A.pdf").read_bytes())
+        finally:
+            db.close()
+
+    def test_concurrent_transfers_do_not_overfetch_past_target(self):
+        client = FakeClient({("q", 1): (["A", "B", "C"], False)}, {i: pdf(i) for i in "ABC"})
+        report = c.collect(self.db, client, self.plan, self.output, 2, workers=4)
+        self.assertEqual(report["downloaded_unique"], 2)
+        self.assertEqual({x[1] for x in client.calls if x[0] == "download"}, {"A", "B"})
+
+    def test_seed_rejects_different_queries(self):
+        changed = {"queries": [dict(self.plan["queries"][0], query="different")]}
+        target = self.output / "different"
+        (target / "pdfs").mkdir(parents=True)
+        db = c.open_database(target / "collection.sqlite3", changed)
+        try:
+            with self.assertRaisesRegex(ValueError, "definitions"):
+                c.seed_collection(db, target, self.output, changed)
+        finally:
+            db.close()
+
     def test_bad_pdf_is_recorded_and_replaced_by_next_candidate(self):
         client = FakeClient({("q", 1): (["A", "B"], False)}, {"A": b"<html>error</html>", "B": pdf("B")})
         report = c.collect(self.db, client, self.plan, self.output, 1)

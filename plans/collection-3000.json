@@ -1,0 +1,9 @@
+{
+  "name": "redaction-candidates-3000",
+  "queries": [
+    {"id": "visual-redactions", "mode": "visual", "query": "redacted documents", "quota": 1200},
+    {"id": "keyword-redacted", "mode": "keyword", "query": "redacted", "quota": 600},
+    {"id": "keyword-withheld", "mode": "keyword", "query": "withheld", "quota": 600},
+    {"id": "keyword-top-secret", "mode": "keyword", "query": "\"top secret\"", "quota": 600}
+  ]
+}

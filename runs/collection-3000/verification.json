@@ -1,0 +1,20 @@
+{
+  "verified_at": "2026-11-04T15:20:25.555190+00:00",
+  "unique_document_ids": 3000,
+  "unique_sha256_hashes": 3000,
+  "pdf_file_count": 3000,
+  "reused_pilot_documents": 100,
+  "new_unique_documents": 2900,
+  "new_hashes_overlapping_pilot": 0,
+  "pilot_files_and_source_metadata_unchanged": true,
+  "all_recorded_file_hashes_verified": true,
+  "all_pdfs_passed_pdfinfo": true,
+  "complete_source_urls_and_crawl_dates": true,
+  "sqlite_integrity": "ok",
+  "resume_network_requests": 0,
+  "unit_tests_passed": 12,
+  "source_domains": 271,
+  "total_pdf_pages": 67128,
+  "total_bytes": 4981622958,
+  "rejected_candidates": 1
+}
