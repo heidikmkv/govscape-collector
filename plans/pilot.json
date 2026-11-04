@@ -1,0 +1,9 @@
+{
+  "name": "redaction-candidates-pilot-100",
+  "queries": [
+    {"id": "visual-redactions", "mode": "visual", "query": "redacted documents", "quota": 40},
+    {"id": "keyword-redacted", "mode": "keyword", "query": "redacted", "quota": 20},
+    {"id": "keyword-withheld", "mode": "keyword", "query": "withheld", "quota": 20},
+    {"id": "keyword-top-secret", "mode": "keyword", "query": "\"top secret\"", "quota": 20}
+  ]
+}

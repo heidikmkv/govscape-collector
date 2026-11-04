@@ -1,0 +1,84 @@
+{
+  "updated_at": "2026-11-04T03:31:43.761277+00:00",
+  "target": 100,
+  "downloaded_unique": 100,
+  "stop_reason": "target_reached",
+  "total_bytes": 179402322,
+  "source_domains": {
+    "tamu.edu": 1,
+    "dni.gov": 7,
+    "fjc.gov": 1,
+    "ca.gov": 1,
+    "dnfsb.gov": 5,
+    "fcc.gov": 3,
+    "intel.gov": 1,
+    "crb.gov": 1,
+    "jcs.mil": 1,
+    "energy.gov": 2,
+    "nro.gov": 7,
+    "clinicaltrials.gov": 1,
+    "fec.gov": 1,
+    "ftc.gov": 4,
+    "vermont.gov": 1,
+    "uscourts.gov": 1,
+    "cia.gov": 5,
+    "cityofsacramento.org": 1,
+    "arkansas.gov": 1,
+    "whs.mil": 1,
+    "dol.gov": 4,
+    "idaho.gov": 3,
+    "va.gov": 2,
+    "everycrsreport.com": 7,
+    "ed.gov": 1,
+    "cdc.gov": 1,
+    "wa.gov": 21,
+    "nsa.gov": 4,
+    "af.mil": 1,
+    "state.gov": 2,
+    "navy.mil": 2,
+    "gao.gov": 2,
+    "opm.gov": 1,
+    "archives.gov": 2,
+    "cdse.edu": 1
+  },
+  "selected_by_query": {
+    "visual-redactions": 40,
+    "keyword-redacted": 20,
+    "keyword-withheld": 20,
+    "keyword-top-secret": 20
+  },
+  "candidate_statuses": {
+    "downloaded": 100
+  },
+  "search_pages_cached": 5,
+  "scope": "Candidate collection only; redaction presence and quality are unreviewed.",
+  "plan": {
+    "name": "redaction-candidates-pilot-100",
+    "queries": [
+      {
+        "id": "visual-redactions",
+        "mode": "visual",
+        "query": "redacted documents",
+        "quota": 40
+      },
+      {
+        "id": "keyword-redacted",
+        "mode": "keyword",
+        "query": "redacted",
+        "quota": 20
+      },
+      {
+        "id": "keyword-withheld",
+        "mode": "keyword",
+        "query": "withheld",
+        "quota": 20
+      },
+      {
+        "id": "keyword-top-secret",
+        "mode": "keyword",
+        "query": "\"top secret\"",
+        "quota": 20
+      }
+    ]
+  }
+}
